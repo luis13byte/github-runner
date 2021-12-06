@@ -20,4 +20,4 @@ RUN ./bin/installdependencies.sh && rm -rf /var/lib/apt/lists/*
 RUN useradd runner && chown runner: /actions-runner -R
 USER runner
 
-CMD ./config.sh --unattended --url $RUNNER_ORG_URL --token $ACCESS_TOKEN --name $RUNNER_NAME --work $RUNNER_WORKDIR --replace
+CMD ./config.sh --unattended --url $RUNNER_ORG_URL --token $ACCESS_TOKEN --name $RUNNER_NAME --work $RUNNER_WORKDIR --replace && ./run.sh
