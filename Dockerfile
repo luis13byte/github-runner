@@ -1,5 +1,5 @@
 FROM ubuntu:20.04
-LABEL maintainer="@luis13byte
+LABEL maintainer="@luis13byte"
 
 ARG DEBIAN_FRONTEND="noninteractive"
 ARG RUNNER_VERSION="2.285.0"   
