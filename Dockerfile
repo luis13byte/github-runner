@@ -17,7 +17,8 @@ RUN curl -o actions-runner-linux-x64-$RUNNER_VERSION.tar.gz -L https://github.co
     && tar xzf ./actions-runner-linux-x64-$RUNNER_VERSION.tar.gz
 
 RUN ./bin/installdependencies.sh && rm -rf /var/lib/apt/lists/*
-RUN useradd runner && chown runner: /actions-runner -R
+RUN useradd runner && chown runner: /actions-runner -R && chmod u+x ./entrypoint.sh
+COPY ./entrypoint.sh ./
 USER runner
 
-CMD ./config.sh --unattended --url $RUNNER_ORG_URL --token $ACCESS_TOKEN --name $RUNNER_NAME --work $RUNNER_WORKDIR --replace && ./run.sh
+CMD ./entrypoint.sh
