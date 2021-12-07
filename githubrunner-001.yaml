@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: githubrunner-001
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: githubrunner-001
+  template:
+    metadata:
+      labels:
+        app: githubrunner-001
+    spec:
+      containers:
+      - env:
+        - name: RUNNER_ORG_URL
+          value: https://github.com/HustleGotReal
+        - name: RUNNER_NAME
+          value: SelfHostedRunner-001
+        - name: RUNNER_WORKDIR
+          value: /actions-runner
+        image: hustlegotreal/githubrunner:0.3
+        imagePullPolicy: Never
+        name: githubactionsrunner-001
+        resources:
+          requests:
+            memory: "400Mi"
+            cpu: "250m"
+          limits:
+            memory: "1100Mi"
+            cpu: "1300m"
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
